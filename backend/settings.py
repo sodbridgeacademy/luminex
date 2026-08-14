@@ -27,17 +27,38 @@ environ.Env.read_env(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-0j*ptyh-(ga08=)4=cj6q2_io4^i1lvkol-6-=8pgq$5vs0$l#'
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
-
-#ALLOWED_HOSTS = []
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "luminex-w0nm.onrender.com", "localhost"])
 
-# Application definition
 
+CORS_ALLOWED_ORIGINS = env.list(
+    "CORS_ALLOWED_ORIGINS",
+    default=["http://localhost:3000"]
+)
+
+CSRF_TRUSTED_ORIGINS = env.list(
+    "CSRF_TRUSTED_ORIGINS",
+    default=[]
+)
+
+# Email Config
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = env("EMAIL_HOST", default="smtp.gmail.com")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+
+DEFAULT_FROM_EMAIL = env(
+    "DEFAULT_FROM_EMAIL",
+    default=EMAIL_HOST_USER
+)
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -65,17 +86,6 @@ REST_FRAMEWORK = {
 }
 
 # Spectacular Settings
-# SPECTACULAR_SETTINGS = {
-#     'TITLE': 'Luminex API',
-#     'DESCRIPTION': 'Dynamic Assessment Platform API',
-#     'VERSION': '1.0.0',
-#     'SERVE_INCLUDE_SCHEMA': False,
-#     # Nice UI extras
-#     'SWAGGER_UI_DIST': 'SIDECAR',   # Optional but nice
-#     'COMPONENT_SPLIT_REQUEST': True,
-# }
-
-
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Luminex API',
     'DESCRIPTION': 'Dynamic Assessment Platform API',
@@ -103,16 +113,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
-
-CORS_ALLOWED_ORIGINS = env.list(
-    "CORS_ALLOWED_ORIGINS",
-    default=["http://localhost:3000"]
-)
-
-CSRF_TRUSTED_ORIGINS = env.list(
-    "CSRF_TRUSTED_ORIGINS",
-    default=[]
-)
 
 TEMPLATES = [
     {
