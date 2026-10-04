@@ -137,7 +137,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserListSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 
 

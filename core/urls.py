@@ -46,3 +46,6 @@ urlpatterns = [
     # Organizations
     path('', include(router.urls)),
 ]
+
+
+# https://forms.gle/ynyY64TAnY5rqYUM8
